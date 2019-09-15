@@ -11,8 +11,7 @@ token = util.prompt_for_user_token(username, scope, client_id=cid, client_secret
 
 if token:
     sp = spotipy.Spotify(auth=token)
-    bound = input("Add songs downloaded within the last how many days: ")
-    playlist_name = "Saved Within Last " + str(bound) + " Days"
+    playlist_name = "Recently Added"
     curr_date = datetime.datetime.now()
     curr_day = curr_date.day
     sp.user_playlist_create(username, playlist_name)
@@ -25,7 +24,7 @@ if token:
         date = item["added_at"]
         datetime_obj = dp.parse(date)
         elapsed = curr_day - datetime_obj.day
-        if abs(elapsed) <= int(bound):
+        if abs(elapsed) <= 30:
             track = item["track"]
             track_ids.append(track["id"])   
   
